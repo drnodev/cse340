@@ -1,0 +1,175 @@
+@media (min-width: 32.5em) {
+	body {
+		background-image: url(../images/site/small_check.jpg);
+		background-position: center;
+		background-size: cover;
+	}
+	/* 
+	h1 {
+		font-size: 1.5em;
+	} */
+
+	form.user-form {
+		max-width: 600px;
+		display: block;
+	}
+}
+
+@media (min-width: 45em) {
+	main {
+		max-width: 1200px;
+	}
+
+	.small {
+		display: none;
+	}
+
+	.large {
+		display: block;
+		text-align: center;
+	}
+
+	#cta-head h1 {
+		font-size: 32px;
+	}
+
+	.cta-content {
+		padding-left: 3em;
+		margin-top: 30px;
+	}
+
+	.cta-content p {
+		font-size: 18px;
+	}
+
+	.cta-btn {
+		margin-top: 20px;
+	}
+
+	.delorean-grid {
+		margin-top: 80px;
+		margin-left: 30px;
+		margin-right: 30px;
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		column-gap: 8em;
+	}
+
+	.delorean-left {
+		margin-top: 0;
+	}
+
+	.delorean-right {
+		grid-area: 1/2;
+	}
+
+	.dmc-reviews li {
+		padding-bottom: 20px;
+	}
+
+	.delorean-grid h2 {
+		padding-bottom: 20px;
+	}
+
+	.box-head img {
+		height: 50px;
+		width: 50px;
+	}
+
+	.dmc-reviews li,
+	.box-content a {
+		font-size: 18px;
+	}
+
+	#classification-main {
+		margin-left: 20px;
+		margin-right: 20px;
+	}
+
+	#inv-display {
+		flex-flow: row wrap;
+		gap: 30px;
+		justify-content: center;
+	}
+
+	#inv-display li {
+		max-width: 300px;
+		flex: 1 0 auto;
+		text-align: center;
+		height: 350px;
+		margin-bottom: 0;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+	}
+
+	#inv-display li div {
+		height: 200px;
+	}
+
+	#inv-display li hr,
+	#inv-display li h2 {
+		margin-top: 0;
+	}
+	#inv-display li span {
+		display: inherit;
+		margin-top: -2em;
+		padding-top: 0;
+	}
+
+	.vehicle-detail-grid {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 40px;
+	}
+
+	.vehicle-detail-grid .grid2 {
+		margin-right: 20px;
+	}
+
+	.vehicle-detail-grid .grid2 h2 {
+		margin-left: -15px;
+	}
+
+	.vehicle-detail-grid .grid2 ul li.price {
+		margin-top: auto;
+	}
+
+	#image-display {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 40px;
+	}
+
+	#v-detail-grid {
+		display: grid;
+		grid-template-columns: 1fr 6fr;
+		gap: 10px;
+	}
+
+	#vehicle-thumbnail {
+		display: block;
+		order: -1;
+	}
+
+	#vehicle-thumbnail li {
+		margin-bottom: 10px;
+		margin-right: auto;
+	}
+
+	.img-thumbnail {
+		transition: transform 0.3s ease-in-out;
+	}
+
+	.img-thumbnail:hover {
+		transform: scale(1.5);
+	}
+
+	.small {
+		display: none;
+	}
+
+	table {
+		width: 50%;
+	}
+}
