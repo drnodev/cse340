@@ -4,10 +4,10 @@ const Util = {}
 Util.getNav = async function (req, res, next) {
   let list = "<ul>"
   list += '<li><a href="/" title="Home page">Home</a></li>'
-  list += '<li><a href="/inv/" title="View our inventory of vehicles">Inventory</a></li>'
-  list += '<li><a href="/about/" title="Learn more about us">About</a></li>'
-  list += '<li><a href="/services/" title="View the services we offer">Services</a></li>'
-  list += '<li><a href="/contact/" title="Contact us">Contact</a></li>'
+  list += '<li><a href="/custom/" title="custom">Custom</a></li>'
+  list += '<li><a href="/sedan/" title="sedan">Sedan</a></li>'
+  list += '<li><a href="/suv/" title="suv">SUV</a></li>'
+  list += '<li><a href="/truck/" title="truck">Truck</a></li>'
   list += "</ul>"
   return list
 }
