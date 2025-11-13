@@ -794,3 +794,9 @@ tr:nth-child(even) {
     font-size: 1rem;
   }
 }
+
+.trigger-error{
+	text-align: center;
+	margin-top: 1rem;
+	margin-bottom: 1rem;
+}

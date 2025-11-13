@@ -10,7 +10,8 @@ const expressLayouts = require("express-ejs-layouts")
 const env = require("dotenv").config()
 const app = express()
 const static = require("./routes/static")
-
+const inventoryRoute = require("./routes/inventoryRoute")
+const util = require('./utilities')
 
 const baseController = require("./controllers/baseController")
 
@@ -25,6 +26,9 @@ app.set("layout", "./layouts/layout")
  * Routes
  *************************/
 app.use(static)
+app.get("/", baseController.buildHome)
+app.use("/inv", inventoryRoute)
+
 
 /* ***********************
  * Local Server Information
@@ -33,8 +37,23 @@ app.use(static)
 const port = process.env.PORT
 const host = process.env.HOST
 
+// 404 Not Found
+app.use((req, res, next) => {
+  console.log("404 handler")
+  util.renderErrorPage(404, req, res, next, "Page not found")
+})
 
-app.use("/", baseController.buildHome)
+// Error handler
+app.use((err, req, res, next) => {
+  const status = err.status || err.statusCode || 500
+  util.renderErrorPage(status, req, res, next, err.message)
+})
+
+process.on('uncaughtException', (err, origin) => {
+  console.log("Error uncaughtException")
+  console.log(process.stderr.fd, `${err}\n ${origin}`)
+})
+
 
 /* ***********************
  * Log statement to confirm server operation
