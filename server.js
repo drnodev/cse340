@@ -7,7 +7,6 @@
  *************************/
 const express = require("express")
 const session = require("express-session")
-const bodyParser = require("body-parser")
 
 const pool = require('./database/')
 
@@ -44,7 +43,7 @@ app.use(function (req, res, next) {
   next()
 })
 
-app.use(bodyParser.json())
+app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
 /* ***********************
