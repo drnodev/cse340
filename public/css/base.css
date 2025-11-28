@@ -826,7 +826,7 @@ tr:nth-child(even) {
 .management-item a {
 	display: block;
 	text-decoration: none;
-	color: #0073e6;
+	color: #000;
 	height: 40px;
 	width: 300px;
 	background-color: #ccc;
@@ -1047,5 +1047,6 @@ input:required:valid {
 }
 
 .error-messages {
-	color: red;
+	color: #700000;
+	background-color: #F8E8E8;
 }
