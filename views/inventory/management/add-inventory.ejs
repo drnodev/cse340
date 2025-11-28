@@ -1,0 +1,63 @@
+<div class="title">
+    <h1>
+        <%= title %>
+    </h1>
+</div>
+
+<div class="form-section">
+
+    <% if (errors && errors.length> 0) { %>
+        <div class="error-messages">
+            <ul>
+                <% errors.forEach(err=> { %>
+                    <li>
+                        <%= err.msg %>
+                    </li>
+                    <% }) %>
+            </ul>
+        </div>
+        <% } %>
+
+            <form action="/inv/add-inventory" method="POST" autocomplete="off">
+
+                <label for="classification_id">Classification</label>
+                <%- classificationList %>
+
+                    <label for="inv_make">Make</label>
+                    <input type="text" id="inv_make" placeholder="min of 3 characters" name="inv_make" required
+                        minlength="3" value="<%= inv_make || '' %>">
+
+                    <label for="inv_model">Model</label>
+                    <input type="text" id="inv_model" placeholder="min of 3 characters" name="inv_model" required
+                        minlength="3" value="<%= inv_model || '' %>">
+
+                    <label for="inv_year">Year</label>
+                    <input type="number" id="inv_year" placeholder="4 digits" name="inv_year" required min="1900"
+                        maxlength="4" max="2099" value="<%= inv_year || '' %>">
+
+                    <label for="inv_description">Description</label>
+                    <textarea id="inv_description" name="inv_description"
+                        required><%= inv_description || '' %></textarea>
+
+                    <label for="inv_image">Image Path</label>
+                    <input type="text" id="inv_image" name="inv_image"
+                        value="<%= inv_image || '/images/vehicles/no-image.png' %>">
+
+                    <label for="inv_thumbnail">Thumbnail Path</label>
+                    <input type="text" id="inv_thumbnail" name="inv_thumbnail"
+                        value="<%= inv_thumbnail || '/images/vehicles/no-image.png' %>">
+
+                    <label for="inv_price">Price</label>
+                    <input type="number" id="inv_price" name="inv_price" required min="0"
+                        placeholder="Decimal or integer" value="<%= inv_price || '' %>">
+
+                    <label for="inv_miles">Miles</label>
+                    <input type="number" id="inv_miles" name="inv_miles" required min="0" placeholder="Digits only"
+                        value="<%= inv_miles || '' %>">
+
+                    <label for="inv_color">Color</label>
+                    <input type="text" id="inv_color" name="inv_color" required value="<%= inv_color || '' %>">
+
+                    <button type="submit" class="btn-primary">Add Inventory</button>
+            </form>
+</div>

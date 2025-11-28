@@ -1,0 +1,35 @@
+<% if (title) { %>
+    <div class="title">
+        <h1>
+            <%= title %>
+        </h1>
+    </div>
+
+    <div class="form-section">
+        <% if (errors && errors.length> 0) { %>
+            <div class="error-messages">
+                <ul>
+                    <% errors.forEach(err=> { %>
+                        <li>
+                            <%= err.msg %>
+                        </li>
+                        <% }) %>
+                </ul>
+            </div>
+            <% } %>
+
+                <form action="/inv/add-classification" method="POST" autocomplete="off">
+                    <label for="classification_name">Classification Name</label>
+                    <input type="text" id="classification_name" name="classification_name" required minlength="2"
+                        pattern="[A-Za-z0-9_-]+" aria-describedby="classRules" placeholder="Example: SUV"
+                        value="<%= classification_name ? classification_name : '' %>" />
+
+                    <small id="classRules">
+                        Classification name cannot contain spaces or special characters.
+                    </small>
+
+                    <button type="submit" class="btn-primary">Add Classification</button>
+                </form>
+    </div>
+
+    <% } else { res.redirect('/') } %>

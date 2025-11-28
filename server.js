@@ -6,14 +6,46 @@
  * Require Statements
  *************************/
 const express = require("express")
+const session = require("express-session")
+const bodyParser = require("body-parser")
+
+const pool = require('./database/')
+
 const expressLayouts = require("express-ejs-layouts")
 const env = require("dotenv").config()
 const app = express()
 const static = require("./routes/static")
 const inventoryRoute = require("./routes/inventoryRoute")
+const accountRoute = require("./routes/accountRoute")
 const util = require('./utilities')
 
 const baseController = require("./controllers/baseController")
+
+
+
+/* ***********************
+ * Middleware
+ * ************************/
+app.use(session({
+  store: new (require('connect-pg-simple')(session))({
+    createTableIfMissing: true,
+    pool,
+  }),
+  secret: process.env.SESSION_SECRET,
+  resave: true,
+  saveUninitialized: true,
+  name: 'sessionId',
+}))
+
+// Express Messages Middleware
+app.use(require('connect-flash')())
+app.use(function (req, res, next) {
+  res.locals.messages = require('express-messages')(req, res)
+  next()
+})
+
+app.use(bodyParser.json())
+app.use(express.urlencoded({ extended: true }))
 
 /* ***********************
 *. 
@@ -28,6 +60,7 @@ app.set("layout", "./layouts/layout")
 app.use(static)
 app.get("/", baseController.buildHome)
 app.use("/inv", inventoryRoute)
+app.use("/account", accountRoute)
 
 
 /* ***********************
@@ -49,11 +82,12 @@ app.use((err, req, res, next) => {
   util.renderErrorPage(status, req, res, next, err.message)
 })
 
-process.on('uncaughtException', (err, origin) => {
-  console.log("Error uncaughtException")
-  console.log(process.stderr.fd, `${err}\n ${origin}`)
-})
 
+// Error handle
+process.on('uncaughtException', (err) => {
+  console.error("Uncaught Exception:", err)
+  process.exit(1)
+})
 
 /* ***********************
  * Log statement to confirm server operation

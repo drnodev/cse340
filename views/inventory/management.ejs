@@ -1,0 +1,19 @@
+<% if (title) { %>
+    <div class="title">
+        <h1>
+            <%= title %>
+        </h1>
+    </div>
+    <div class="management-grid">
+        <div class="management-item">
+            <a href="/inv/add-classification">
+                <h2>Add Classification</h2>
+            </a>
+        </div>
+        <div class="management-item">
+            <a href="/inv/add-inventory">
+                <h2>Add Inventory Item</h2>
+            </a>
+        </div>
+    </div>
+    <% } else { res.redirect('/') } %>
