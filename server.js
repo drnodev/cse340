@@ -7,6 +7,7 @@
  *************************/
 const express = require("express")
 const session = require("express-session")
+const cookieParser = require("cookie-parser")
 
 const pool = require('./database/')
 
@@ -36,6 +37,8 @@ app.use(session({
   name: 'sessionId',
 }))
 
+app.use(cookieParser())
+
 // Express Messages Middleware
 app.use(require('connect-flash')())
 app.use(function (req, res, next) {
@@ -43,6 +46,7 @@ app.use(function (req, res, next) {
   next()
 })
 
+app.use(util.checkJWTToken)
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
@@ -71,13 +75,13 @@ const host = process.env.HOST
 
 // 404 Not Found
 app.use((req, res, next) => {
-  console.log("404 handler")
   util.renderErrorPage(404, req, res, next, "Page not found")
 })
 
 // Error handler
 app.use((err, req, res, next) => {
   const status = err.status || err.statusCode || 500
+  console.log(err)
   util.renderErrorPage(status, req, res, next, err.message)
 })
 

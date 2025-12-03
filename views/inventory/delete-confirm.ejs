@@ -1,0 +1,48 @@
+<% if (title) { %>
+    <div class="form-section">
+        <h1>
+            <%= title %>
+        </h1>
+        <p class="text-center">Confirm Deletion - The delete is permanent.</p>
+
+
+        <div>
+            <div class="image-section">
+                <img src="<%= inv_image %>" alt="Vehicle Image">
+            </div>
+            <div class="info-section">
+                <h2>
+                    <%= inv_make %>
+                        <%= inv_model %> Details
+                </h2>
+                <p class='p-no'><strong>Description:</strong>
+                    <%= inv_description %>
+                </p>
+                <p class='p-gray'><strong>Color:</strong>
+                    <%= inv_color %>
+                </p>
+                <p class='p-no'><strong>Make:</strong>
+                    <%= inv_make %>
+                </p>
+                <p class='p-gray'><strong>Model:</strong>
+                    <%= inv_model %>
+                </p>
+                <p class='p-no'><strong>Year:</strong>
+                    <%= inv_year %>
+                </p>
+                <p class='p-gray'><strong>Miles:</strong>
+                    <%= inv_miles %>
+                </p>
+            </div>
+        </div>
+
+        <form action="/inv/delete/<%= inv_id %>" method="post" class="flex">
+            <div>
+                <button type="submit" class="btn btn-danger">Delete</button>
+            </div>
+            <div>
+                <a href="/inv/" class="btn">Cancel</a>
+            </div>
+        </form>
+    </div>
+    <% } %>
