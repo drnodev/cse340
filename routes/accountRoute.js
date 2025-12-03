@@ -13,10 +13,10 @@ router.post("/register", regValidate.registationRules(),
   regValidate.checkRegData,
   accountController.registerAccount)
 router.get("/logout", accountController.logoutAccount)
-router.get("/edit", accountController.buildEdit)
-router.post("/edit", regValidate.editRules(), regValidate.checkEditData, accountController.editAccount)
-router.get("/edit-password", accountController.buildEditPassword)
-router.post("/edit-password", regValidate.editPasswordRules(), regValidate.checkEditPasswordData, accountController.editPassword)
+router.get("/edit", utilities.checkLogin, accountController.buildEdit)
+router.post("/edit", utilities.checkLogin, regValidate.editRules(), regValidate.checkEditData, accountController.editAccount)
+router.get("/edit-password", utilities.checkLogin, accountController.buildEditPassword)
+router.post("/edit-password", utilities.checkLogin, regValidate.editPasswordRules(), regValidate.checkEditPasswordData, accountController.editPassword)
 
 
 

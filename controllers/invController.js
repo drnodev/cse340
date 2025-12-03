@@ -83,6 +83,7 @@ invCont.addClassification = async function (req, res, next) {
     res.render("./inventory/management", {
       title: "Inventory Management",
       nav,
+      classificationSelect: await utilities.buildClassificationList(),
     })
   } catch (error) {
     console.error(error)
@@ -147,7 +148,8 @@ invCont.addInventory = async function (req, res, next) {
 
     return res.render("./inventory/management", {
       title: "Inventory Management",
-      nav
+      nav,
+      classificationSelect: await utilities.buildClassificationList(),
     })
   } catch (error) {
     console.error("addInventory error:", error)
