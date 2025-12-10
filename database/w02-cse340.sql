@@ -27,10 +27,21 @@ CREATE TABLE IF NOT EXISTS public.inventory(
 
 
 
+CREATE TABLE public.review
+(
+    id integer NOT NULL,
+    review text NOT NULL,
+    created_at date NOT NULL,
+    inv_id integer NOT NULL,
+    account_id integer,
+    PRIMARY KEY (id)
+);
+
+
 
 ALTER TABLE IF EXISTS public.inventory
-    ADD CONSTRAINT fk_classification FOREIGN KEY (classification_id)
-    REFERENCES public.classification (classification_id) MATCH SIMPLE
+    ADD CONSTRAINT fk_classification FOREIGN KEY (inv_id)
+    REFERENCES public.classification (inv_id) MATCH SIMPLE
     ON UPDATE CASCADE
     ON DELETE NO ACTION;
 

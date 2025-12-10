@@ -1,10 +1,99 @@
-
 <% if (title) { %>
     <div class="title">
         <h1>
             <%= title %>
         </h1>
     </div>
-<% } else { res.redirect('/') } %>
+    <% } else { res.redirect('/') } %>
+        <%- grid %>
 
-<%- grid %>
+            <div id="reviewModal" class="modal <%= (errors && errors.length > 0) ? '' : 'hidden' %>">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+
+                    <h2>Review Vehicle</h2>
+
+                    <% if (errors && errors.length> 0) { %>
+                        <div class="error-messages mx-1">
+                            <ul>
+                                <% errors.forEach(err=> { %>
+                                    <li>
+                                        <%= err.msg %>
+                                    </li>
+                                    <% }) %>
+                            </ul>
+                        </div>
+                        <% } %>
+
+                            <form action="/inv/detail/<%= inventory_id %>" method="post" id="reviewForm">
+                                <label for="review">Review:</label>
+                                <textarea rows="4" name="review" id="review" required><%= review || '' %></textarea>
+
+                                <br><br>
+                                <button type="submit" class="btn">Submit</button>
+                            </form>
+
+                </div>
+            </div>
+
+
+            <script>
+                function openReviewModal() {
+                    document.getElementById("reviewModal").classList.remove("hidden")
+                }
+
+                document.addEventListener("DOMContentLoaded", function () {
+
+                    // Cerrar modal
+                    document.querySelector(".close").onclick = () => {
+                        document.getElementById("reviewModal").classList.add("hidden")
+                    }
+
+                    // Capturar submit del formulario
+                    //     const form = document.getElementById("reviewForm")
+
+                    //     form.addEventListener("submit", async function (e) {
+                    //         e.preventDefault() // evitar refresh
+
+                    //         const url = form.action
+                    //         const formData = new FormData(form)
+
+                    //         try {
+                    //             const response = await fetch(url, {
+                    //                 method: "POST",
+                    //                 body: formData
+                    //             })
+
+                    //             const result = await response.json()
+
+                    //             if (!response.ok) {
+                    //                 showErrors(result.errors)
+                    //                 return
+                    //             }
+
+                    //             // Si todo salió bien
+                    //             alert("Review added successfully!")
+                    //             form.reset()
+                    //             document.getElementById("reviewModal").classList.add("hidden")
+
+                    //         } catch (error) {
+                    //             console.error(error)
+                    //             alert("Error sending review.")
+                    //         }
+                    //     })
+
+                    // })
+
+                    //                 // function showErrors(errors) {
+                    //                     const container = document.querySelector(".error-messages")
+                    //                     if (!container) return
+
+                    //                     container.innerHTML = `
+                    //     <ul>
+                    //         ${errors.map(e => `<li>${e.msg}</li>`).join("")}
+                    //     </ul>
+                    // `
+
+                    //                     document.getElementById("reviewModal").classList.remove("hidden")
+                });
+            </script>

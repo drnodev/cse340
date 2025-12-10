@@ -1,4 +1,5 @@
 const invModel = require("../models/inventory-model")
+const HttpError = require("./error")
 const jwt = require("jsonwebtoken")
 require("dotenv").config()
 
@@ -57,12 +58,17 @@ Util.buildClassificationGrid = async function (data) {
   return grid
 }
 
-Util.buildByCardId = async function (data) {
+Util.buildByCardId = async function (data, account_type = null) {
   const html = `<div class="details-car">
-    <div class="image-section">
+    <div class="image-section imagen box">
       <img src="${data.inv_image}" alt="Vehicle Image">
+      ${account_type && (account_type === "Admin" || account_type === "Employee") ? `<div class="flex">
+        <a class="btn " href="/inv/edit/${data.inv_id}" class="button">Edit</a>
+        <a class="btn btn-danger" href="/inv/delete/${data.inv_id}" class="button">Delete</a>
+      </div>` : ""}
+      ${Util.reviewVehicle(data?.inv_id)}
     </div>
-    <div class="info-section">
+    <div class="info-section info box">
       <h2>${data.inv_make} ${data.inv_model} Details</h2>
       <p class='p-gray'><strong>Price:</strong>$ ${parseFloat(data.inv_price).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</p>
       <p class='p-no'><strong>Description:</strong> ${data.inv_description}</p>
@@ -71,6 +77,9 @@ Util.buildByCardId = async function (data) {
       <p class='p-gray'><strong>Model:</strong> ${data.inv_model}</p>
       <p class='p-no'><strong>Year:</strong> ${data.inv_year}</p>
       <p class='p-gray'><strong>Miles:</strong> ${parseFloat(data.inv_miles).toFixed().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</p>
+    </div>
+    <div class="reviews-section reviews box">
+      ${Util.listReviews(data?.reviews)}
     </div>
   </div>`
 
@@ -127,11 +136,22 @@ Util.checkLogin = (req, res, next) => {
   if (res.locals.loggedin) {
     next()
   } else {
-    req.flash("notice", "Please log in.")
+    try {
+      req.flash("notice", "Please log in.")
+    } catch (error) {
+      console.log(error)
+    }
     return res.redirect("/account/login")
   }
 }
 
+Util.checkAdmin = (req, res, next) => {
+  if (res.locals.accountData.account_type === "Admin" || res.locals.accountData.account_type === "Employee") {
+    next()
+  } else {
+    next(new HttpError(404, "Page not found"))
+  }
+}
 
 
 /* ****************************************
@@ -156,6 +176,30 @@ Util.checkJWTToken = (req, res, next) => {
   } else {
     next()
   }
+}
+
+Util.reviewVehicle = (cardId) => {
+  const html = `<div class="review-btn-modal"><button class="btn btn-primary" onclick="openReviewModal()">Add Review</button></div>`
+  return html
+}
+
+
+Util.listReviews = (reviews) => {
+  let html = ""
+  if (!reviews || reviews.length === 0) return html
+  reviews.forEach((review, index) => {
+    if (index === 0) {
+      html += `<h4>Reviews</h4>`
+    }
+    html += `<div class="review">
+    <small class="text-muted">${review.created_at.toLocaleString("en-US", {
+      dateStyle: "long",
+      timeStyle: "short"
+    })}</small>
+    <p>${review.review}</p>
+    </div>`
+  })
+  return html
 }
 
 

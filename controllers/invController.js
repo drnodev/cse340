@@ -1,4 +1,5 @@
 const invModel = require("../models/inventory-model")
+const reviewModel = require("../models/review-model")
 const HttpError = require("../utilities/error")
 const utilities = require("../utilities/")
 
@@ -33,15 +34,22 @@ invCont.buildByCardId = async function (req, res, next) {
   try {
     const cardId = req.params.cardId
     const data = await invModel.getInventoryById(cardId)
+    const reviews = await reviewModel.getReviewsByVehicleId(cardId)
+
     if (!data) {
       next(new HttpError(404, "Vehicle not found", "No vehicle found with the provided ID."))
     }
-    const grid = await utilities.buildByCardId(data)
+    data.reviews = Array.isArray(reviews) ? reviews : []
+
+    const grid = await utilities.buildByCardId(data, res.locals?.accountData?.account_type || null)
     let nav = await utilities.getNav()
     res.render("./inventory/details", {
       title: `${data.inv_year} ${data.inv_make} ${data.inv_model}`,
       nav,
-      grid
+      grid,
+      errors: [],
+      inventory_id: cardId,
+      review: "",
     })
   } catch (error) {
     console.error(error)
@@ -278,6 +286,21 @@ invCont.deleteInventory = async function (req, res, next) {
       nav,
       classificationSelect: await utilities.buildClassificationList(),
     })
+  }
+}
+
+
+invCont.addReview = async function (req, res, next) {
+  const { review } = req.body
+  const cardId = req.params.cardId
+  console.log(req.get("Referrer"))
+  const result = await reviewModel.registerReview(review, cardId, null)
+  if (result) {
+    //req.flash("notice", "Review added successfully.")
+    return res.redirect(req.get("Referrer") || "/")
+  } else {
+    //req.flash("notice", "Sorry, an error occurred.")
+    return res.redirect(req.get("Referrer") || "/")
   }
 }
 
